@@ -1,0 +1,22 @@
+{
+  "name": "Movieseat",
+  "description": "Keep track of movies",
+  "main": "",
+  "authors": [
+    "alucardu <peter@no-illusions.nl>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.8",
+    "angular-material": "^1.0.9"
+  }
+}
