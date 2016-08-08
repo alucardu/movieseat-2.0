@@ -1,7 +1,8 @@
 doctype html
-html
+html(ng-app='movieSeat')
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    include index.jade
+    include footer.jade
