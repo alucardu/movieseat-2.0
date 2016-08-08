@@ -1,1 +1,1 @@
-app = angular.module('movieSeat', []);
+app = angular.module('movieSeat', ['ngMaterial']);
