@@ -12,6 +12,7 @@ var movies = require('./routes/movies');
 
 var app = express();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -28,6 +29,19 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.use('/', index);
 app.use('/movies/', movies);
+
+// connect to the heroku database
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'us-cdbr-iron-east-04.cleardb.net',
+  user     : 'bfe4a8980ede74',
+  password : '67425669',
+  database : 'heroku_0b954ee0f0e9102'
+});
+
+app.get('/', function(req, res){
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
