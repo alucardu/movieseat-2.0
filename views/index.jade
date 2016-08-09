@@ -15,7 +15,7 @@ block content
 								span
 									i.fa.fa-question-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
 								span
-									i.fa.fa-plus-circle(aria-hidden='true')
+									i.fa.fa-plus-circle(aria-hidden='true', ng-click="addMovie(movie)")
 				.container_additional_information(ng-show='toggleSsomething')
 					.additional_info(ng-show='$index === model.displayedIndex')
 						i.fa.fa-times-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
