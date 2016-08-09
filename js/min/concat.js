@@ -1,13 +1,46 @@
 app = angular.module('movieSeat', ['ngMaterial']);
 
 angular.module('movieSeat')
-    .controller('moviesearchCtrl', ['moviesearchFactory', '$scope', '$q', '$timeout', function (moviesearchFactory, $scope, $q, $timeout) {
+    .factory('movieaddFactory', ['$http', '$q', function ($http, $q) {
+        var factory = {};
+
+        factory.addMovie = function (movie) {
+
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: '/movies',
+                data: movie
+            })
+                .success(function (data) {
+                    console.log('success');
+                })
+                .catch(function () {
+                    deferred.reject();
+                });
+            return deferred.promise;
+
+        };
+
+        return factory;
+
+    }]);
+angular.module('movieSeat')
+    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout', '$http' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout, $http) {
+
+        $scope.add = function (movie)  {
+
+            movieaddFactory.addMovie(movie).then(function(response){
+                $scope.movies = response;
+                console.log($scope.movies)
+            });
+
+        };
 
         $scope.showResult = false;
         $scope.createList = function (searchquery) {
 
             $scope.showResult = true;
-
             if ($scope.searchquery.length > 0) {
                 $scope.showProgress = true;
 

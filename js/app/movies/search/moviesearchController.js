@@ -1,11 +1,19 @@
 angular.module('movieSeat')
-    .controller('moviesearchCtrl', ['moviesearchFactory', '$scope', '$q', '$timeout', function (moviesearchFactory, $scope, $q, $timeout) {
+    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout', '$http' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout, $http) {
+
+        $scope.add = function (movie)  {
+
+            movieaddFactory.addMovie(movie).then(function(response){
+                $scope.movies = response;
+                console.log($scope.movies)
+            });
+
+        };
 
         $scope.showResult = false;
         $scope.createList = function (searchquery) {
 
             $scope.showResult = true;
-
             if ($scope.searchquery.length > 0) {
                 $scope.showProgress = true;
 

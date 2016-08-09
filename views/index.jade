@@ -8,15 +8,15 @@ block content
 				.movie_info
 					span.title {{movie.title}}
 					span.release_date {{movie.release_date}}
-					img.poster(ng-src='{{movie.poster_path}}')
+					img.poster(ng-model="movie.poster_path", ng-src='{{movie.poster_path}}')
 					.movie_options
 						.slide
 							span.movie_option
 								span
 									i.fa.fa-question-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
 								span
-									i.fa.fa-plus-circle(aria-hidden='true')
+									i.fa.fa-plus-circle(aria-hidden='true', ng-click="add(movie)")
 				.container_additional_information(ng-show='toggleSsomething')
 					.additional_info(ng-show='$index === model.displayedIndex')
 						i.fa.fa-times-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
-						|                         {{movie.overview}}
+						span {{movie.overview}}
