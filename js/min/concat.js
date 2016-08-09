@@ -25,6 +25,10 @@ angular.module('movieSeat')
         return factory;
 
     }]);
+/**
+ * Created by alucardu on 9-8-2016.
+ */
+
 angular.module('movieSeat')
     .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout', '$http' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout, $http) {
 
