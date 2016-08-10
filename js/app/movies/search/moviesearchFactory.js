@@ -1,8 +1,9 @@
 angular.module('movieSeat')
     .factory('moviesearchFactory', ['$http', '$q', function ($http, $q) {
+
         var factory = {};
 
-        factory.getMovies = function (searchquery) {
+        factory.searchMovies = function (searchquery) {
 
             var deferred = $q.defer();
             $http({
@@ -12,12 +13,12 @@ angular.module('movieSeat')
                 .success(function (data) {
                     deferred.resolve(data.results);
                 })
-                .error(function () {
+                .catch(function () {
                     deferred.reject();
                 });
             return deferred.promise;
 
-        }
+        };
 
         return factory;
 

@@ -1,1 +1,1 @@
-app = angular.module('movieSeat', ['ngMaterial']);
+app = angular.module('movieSeat', ['ngMaterial', 'ngFitText']);

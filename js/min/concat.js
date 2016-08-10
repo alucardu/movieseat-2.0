@@ -1,4 +1,4 @@
-app = angular.module('movieSeat', ['ngMaterial']);
+app = angular.module('movieSeat', ['ngMaterial', 'ngFitText']);
 
 angular.module('movieSeat')
     .factory('movieaddFactory', ['$http', '$q', function ($http, $q) {
@@ -26,7 +26,57 @@ angular.module('movieSeat')
 
     }]);
 angular.module('movieSeat')
-    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout', '$http' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout, $http) {
+    .controller('getmovieController', ['getmovieFactory', '$scope', '$filter', function (getmovieFactory, $scope, $filter) {
+
+        getmovieFactoryFN = function(){
+            getmovieFactory.getMovies().then(function(response){
+
+                $scope.movies = response;
+
+                var watchlist = response;
+
+                var orderBy = $filter('orderBy');
+                var orderedWatchlist = orderBy(watchlist, "release_date", true);
+
+                var i, j, temparray, chunk = 8;
+                $scope.movieGroups = [];
+                for (i=0,j=orderedWatchlist.length; i<j; i+=chunk) {
+                    temparray = orderedWatchlist.slice(i,i+chunk);
+                    $scope.movieGroups.push(temparray);
+                }
+            });
+        };
+
+        getmovieFactoryFN();
+
+    }]);
+angular.module('movieSeat')
+    .factory('getmovieFactory', ['$http', '$q', function ($http, $q) {
+
+        var factory = {};
+
+        factory.getMovies = function () {
+
+            var deferred = $q.defer();
+            $http({
+                method: 'GET',
+                url: 'movies'
+            })
+                .success(function (data) {
+                    deferred.resolve(data);
+                })
+                .catch(function () {
+                    deferred.reject();
+                });
+            return deferred.promise;
+
+        };
+
+        return factory;
+
+    }]);
+angular.module('movieSeat')
+    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout) {
 
         $scope.addMovie = function (movie)  {
 
@@ -44,7 +94,7 @@ angular.module('movieSeat')
             if ($scope.searchquery.length > 0) {
                 $scope.showProgress = true;
 
-                moviesearchFactory.getMovies(searchquery).then(function (response) {
+                moviesearchFactory.searchMovies(searchquery).then(function (response) {
 
                     $scope.moviesResponse = response;
                     if ($scope.moviesResponse.length > 0) {
@@ -62,7 +112,8 @@ angular.module('movieSeat')
                             }
 
                             $scope.moviesPreload.push({
-                                poster_path: 'http://image.tmdb.org/t/p/w92/' + movie.poster_path,
+                                poster_path : movie.poster_path,
+                                pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                 title: movie.title,
                                 release_date: movie.release_date,
                                 overview: movie.overview
@@ -84,7 +135,7 @@ angular.module('movieSeat')
                         }
 
                         $scope.moviesPreload.forEach(function (image) {
-                            promises.push(loadImage(image.poster_path));
+                            promises.push(loadImage(image.pre_load_poster_path));
                         });
 
                         return $q.all(promises).then(function () {
@@ -132,9 +183,10 @@ angular.module('movieSeat')
     }]);
 angular.module('movieSeat')
     .factory('moviesearchFactory', ['$http', '$q', function ($http, $q) {
+
         var factory = {};
 
-        factory.getMovies = function (searchquery) {
+        factory.searchMovies = function (searchquery) {
 
             var deferred = $q.defer();
             $http({
@@ -144,12 +196,12 @@ angular.module('movieSeat')
                 .success(function (data) {
                     deferred.resolve(data.results);
                 })
-                .error(function () {
+                .catch(function () {
                     deferred.reject();
                 });
             return deferred.promise;
 
-        }
+        };
 
         return factory;
 

@@ -1,5 +1,5 @@
 angular.module('movieSeat')
-    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout', '$http' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout, $http) {
+    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout) {
 
         $scope.addMovie = function (movie)  {
 
@@ -17,7 +17,7 @@ angular.module('movieSeat')
             if ($scope.searchquery.length > 0) {
                 $scope.showProgress = true;
 
-                moviesearchFactory.getMovies(searchquery).then(function (response) {
+                moviesearchFactory.searchMovies(searchquery).then(function (response) {
 
                     $scope.moviesResponse = response;
                     if ($scope.moviesResponse.length > 0) {
@@ -35,7 +35,8 @@ angular.module('movieSeat')
                             }
 
                             $scope.moviesPreload.push({
-                                poster_path: 'http://image.tmdb.org/t/p/w92/' + movie.poster_path,
+                                poster_path : movie.poster_path,
+                                pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                 title: movie.title,
                                 release_date: movie.release_date,
                                 overview: movie.overview
@@ -57,7 +58,7 @@ angular.module('movieSeat')
                         }
 
                         $scope.moviesPreload.forEach(function (image) {
-                            promises.push(loadImage(image.poster_path));
+                            promises.push(loadImage(image.pre_load_poster_path));
                         });
 
                         return $q.all(promises).then(function () {

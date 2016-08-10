@@ -8,7 +8,7 @@ block content
 				.movie_info
 					span.title {{movie.title}}
 					span.release_date {{movie.release_date}}
-					img.poster(ng-model="movie.poster_path", ng-src='{{movie.poster_path}}')
+					img.poster(ng-model="movie.poster_path", ng-src='{{movie.pre_load_poster_path}}')
 					.movie_options
 						.slide
 							span.movie_option
@@ -20,3 +20,11 @@ block content
 					.additional_info(ng-show='$index === model.displayedIndex')
 						i.fa.fa-times-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
 						span {{movie.overview}}
+
+	#watchlist(ng-controller="getmovieController")
+		div.row(ng-repeat="group in movieGroups")
+			ul
+				li(ng-repeat="movie in group")
+					div.container_movie(ng-style=" {'background-image':'url(http://image.tmdb.org/t/p/w500{{movie.poster_path}}'}")
+						span(data-fittext) {{ movie.release_date }}
+						img(ng-src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}")
