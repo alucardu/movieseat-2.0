@@ -10,12 +10,16 @@ angular.module('movieSeat')
 
         };
 
+        $scope.overlay = false;
+
         $scope.showResult = false;
         $scope.createList = function (searchquery) {
 
+            $scope.overlay = true;
             $scope.showResult = true;
             if ($scope.searchquery.length > 0) {
                 $scope.showProgress = true;
+                $scope.toggleSsomething =  false;
 
                 moviesearchFactory.searchMovies(searchquery).then(function (response) {
 
@@ -29,18 +33,19 @@ angular.module('movieSeat')
                     $scope.moviesPreload = [];
                     $scope.moviesResponse.forEach(function (movie) {
                         if (movie.poster_path !== null) {
+                            if (movie.release_date !== ''){
+                                if (movie.overview == '' ) {
+                                    movie.overview = 'No summary available';
+                                }
 
-                            if (movie.overview == '' ) {
-                                movie.overview = 'No summary available';
+                                $scope.moviesPreload.push({
+                                    poster_path : movie.poster_path,
+                                    pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
+                                    title: movie.title,
+                                    release_date: movie.release_date,
+                                    overview: movie.overview
+                                });
                             }
-
-                            $scope.moviesPreload.push({
-                                poster_path : movie.poster_path,
-                                pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
-                                title: movie.title,
-                                release_date: movie.release_date,
-                                overview: movie.overview
-                            })
                         }
                     });
 
@@ -75,6 +80,8 @@ angular.module('movieSeat')
                 $scope.movies = [];
                 $scope.noResult = false;
                 $scope.model = {};
+                $scope.toggleSsomething =  false;
+                $scope.overlay = false;
             }
 
         };

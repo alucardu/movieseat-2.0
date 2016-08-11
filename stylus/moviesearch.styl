@@ -1,143 +1,158 @@
 #moviesearch_container
-  width: 40%
-  margin: 0 auto
-  #search_input
-    font-family: Lato, sans-serif
-    padding: 30px
-    font-style: italic
-    font-size: 1.5em
-    background-color: #312f2f
-    border: none
-    color: white
-    width: 100%
-    box-sizing: border-box
-  .search_results
-    width: 100%
-    float: left
-    position: relative
-    display: flex
-    flex-direction: column
-    cursor: pointer
-    &.ng-enter
-      transition: 500ms ease-in-out all
-      opacity: 0
-    &.ng-enter-active
-      opacity: 1
-    &.ng-leave
-      transition: 500ms ease-in-out all
-      opacity: 1
-    &.ng-leave-active
-      opacity: 0
-    .movie_info
-      background-color: rgb(65, 65, 65)
-      z-index: 2
-      border-bottom: 1px solid grey
-      position: relative
-      overflow: hidden
-      display: flex
-      align-items: center
+  .overlay
+    position absolute
+    width 100%
+    height 100%
+    background-color rgba(39, 31, 31, 0.67)
+    z-index 1
+    transition 500ms ease-in all
+    &.ng-hide
+      opacity 0
+    &.ng-add
+      opacity 1
+  #search_container
+    width 40%
+    margin 0 auto
+    margin-bottom 5%
+    position relative
+    #search_input
+      position relative
+      z-index 2
+      font-family: Lato, sans-serif
+      padding: 30px
+      font-style: italic
+      font-size: 1.5em
+      background-color: #312f2f
+      border: none
+      color: white
       width: 100%
-      span
-        padding: 0 1%
-        font-family: Lato, sans-serif
-        font-style: italic
-        display: inline-block
-        font-size: 1.2em
-        i
-          font-size: 0.8em
-      .title
-        width: 65%
-      .release_date
-        padding-right: 2%
-        width: 25%
-        text-align: right
-      img
-        position: relative
-        z-index: 2
-        padding: 0
-        max-width: 10%
-        min-width: 10%
-    .container_additional_information
-      width: 60%
-      position: absolute
-      top: 0
-      left: 100%
-      overflow: hidden
-      transition: 500ms opacity ease-in
-      //@keyframes
-        //0$
-        //opacity: 1
-      &.ng-hide
-        animation: removeDisplay
-      .additional_info
-        width: 90%
-        position: absolute
-        z-index: 1
-        top: 0
-        left: 0
-        box-sizing: border-box
-        padding: 2%
-        background-color: orange
-        font-family: lato
-        font-style: italic
-        margin-top: 0
-        transition: 500ms all ease-in
-        i
-          position: absolute
-          right: 0
-          color: white
-          margin: -4px -25px 0 0
-          font-size: 1.5em
-        .ng-hide-add, .ng-hide-remove
-          /* ensure visibility during the transition */
-          display: block !important
-        /* yes, important */
-        &.ng-hide
-          left: -200%
-        &.ng-add
-          left: 100%
-          display: block
-      .movie_options
-        position: absolute
-        left: 0
+      box-sizing: border-box
+    ul
+      position absolute
+      .search_results
         width: 100%
-        height: 100%
-        &:hover
-          .movie_option
-            bottom: 0
-          .slide
-            right: 10%
-        .slide
-          width: 20%
-          height: 100%
-          background-color: orange
-          position: absolute
-          right: -20%
-          transition-duration: 300ms
-          transition-timing-function: ease-out
+        float: left
+        position: relative
+        display: flex
+        flex-direction: column
+        cursor: pointer
+        &.ng-enter
+          transition: 500ms ease-in-out all
+          opacity: 0
+        &.ng-enter-active
+          opacity: 1
+        &.ng-leave
+          transition: 500ms ease-in-out all
+          opacity: 1
+        &.ng-leave-active
+          opacity: 0
+        .movie_info
+          background-color: rgb(65, 65, 65)
+          z-index: 2
+          border-bottom: 1px solid grey
+          position: relative
+          overflow: hidden
           display: flex
-        .movie_option
-          height: 100%
-          transition-delay: 200ms
-          transition-duration: 300ms
-          position: absolute
-          bottom: -100%
+          align-items: center
           width: 100%
-          float: left
-          color: white
-          font-size: 2em
-          padding: 0
           span
-            cursor: pointer
-            padding: 0
-            display: flex
-            width: 50%
-            height: 100%
-            float: left
-            align-items: center
-            justify-content: center
+            padding: 0 1%
+            font-family: Lato, sans-serif
+            font-style: italic
+            display: inline-block
+            font-size: 1.2em
             i
-              transition: all .2s ease-in-out
+              font-size: 0.8em
+          .title
+            width: 65%
+          .release_date
+            padding-right: 2%
+            width: 25%
+            text-align: right
+          img
+            position: relative
+            z-index: 2
+            padding: 0
+            max-width: 10%
+            min-width: 10%
+        .container_additional_information
+          width: 60%
+          position: absolute
+          top: 0
+          left: 100%
+          overflow: hidden
+          transition: 500ms opacity ease-in
+            //0$
+            //opacity: 1
+          .additional_info
+            width: 90%
+            position: absolute
+            z-index: 1
+            top: 0
+            left: 0
+            box-sizing: border-box
+            padding: 2%
+            background-color: orange
+            font-family: lato
+            font-style: italic
+            margin-top: 0
+            transition: 500ms all ease-in
+            i
+              position: absolute
+              right: 0
+              color: white
+              margin: -4px -25px 0 0
+              font-size: 1.5em
+            .ng-hide-add, .ng-hide-remove
+              /* ensure visibility during the transition */
+              display: block !important
+            /* yes, important */
+            &.ng-hide
+              left: -200%
+            &.ng-add
+              left: 100%
+              display: block
+          .movie_options
+            position: absolute
+            left: 0
+            width: 100%
+            height: 100%
             &:hover
-              i
-                transform: scale(1.2)
+              .movie_option
+                bottom: 0
+              .slide
+                right: 10%
+            .slide
+              width: 20%
+              height: 100%
+              background-color: orange
+              position: absolute
+              right: -20%
+              transition-duration: 300ms
+              transition-timing-function: ease-out
+              display: flex
+            .movie_option
+              height: 100%
+              transition-delay: 200ms
+              transition-duration: 300ms
+              position: absolute
+              bottom: -100%
+              width: 100%
+              float: left
+              color: white
+              font-size: 2em
+              padding: 0
+              span
+                cursor: pointer
+                padding: 0
+                display: flex
+                width: 50%
+                height: 100%
+                float: left
+                align-items: center
+                justify-content: center
+                i
+                  transition: all .2s ease-in-out
+                &:hover
+                  i
+                    transform: scale(1.2)

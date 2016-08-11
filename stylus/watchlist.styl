@@ -1,10 +1,39 @@
 #watchlist
   display: flex
-  flex-direction: column
+  #loadWatchlist
+    background-color rgba(39, 31, 31, 0.67)
+    position absolute
+    top: 0
+    display: flex
+    align-items: center
+    width: 100%
+    height: 100%
+    transition 1000ms ease-in all
+    &.ng-hide
+      opacity 1
+    &.ng-add
+      opacity 0
+    #aligner
+      display flex
+      flex-direction: column
+      width 100%
+    span
+      width 115px
+      margin 0 auto
+      font-family Lato, sans-serif
+      color white
+      font-style italic
+  .animate
+    transition 500ms ease-in all
+    transition-delay 1500ms
+    &.ng-hide
+      opacity 0
+    &.ng-add
+      opacity 1
   .row
     justify-content: center
     min-width: 100%
-    margin-bottom: 0.5%
+    margin-bottom 3.5%
     ul
       min-width: 100%
       display: flex
@@ -17,9 +46,16 @@
           height: 100%
           background-size: cover
           background-position: center
+          .release_date
+            position absolute
+            margin-top -2.2%
+            font-family Lato, sans-serif
+            color white
+            font-style italic
           span
             width 100%
             display inline-block
           img
             width: 100%
             opacity: 0
+
