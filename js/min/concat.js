@@ -76,13 +76,13 @@ angular.module('movieSeat')
     .controller('moviesearchCtrl', ['$rootScope', 'getmovieFactory', 'movieFactory', 'moviesearchFactory', '$scope', '$q', '$timeout',  'Notification', function ($rootScope, getmovieFactory, movieFactory, moviesearchFactory, $scope, $q, $timeout, Notification ) {
 
         $scope.addMovie = function (movie)  {
+
             movieFactory.selectMovie(movie).then(function(response){
                 movieFactory.addMovie(response);
                 Notification.success(movie.title + ' has been added to your watchlist');
                 $scope.movies = [];
                 $scope.overlay = false;
                 $scope.searchquery = '';
-
                 $rootScope.$broadcast('onAddMovieEvent', movie);
             });
         };
@@ -90,7 +90,7 @@ angular.module('movieSeat')
         $scope.$on('onRemoveMovieEvent', function (event, movie) {
             movieFactory.removeMovie(movie).then(function(){
                 Notification.success(movie.title + ' has been removed from your watchlist')
-                // $rootScope.$broadcast('onAddMovieEvent');
+                $rootScope.$broadcast('onRemoveMovieEventUpdate', movie);
             })
         });
 
@@ -134,7 +134,6 @@ angular.module('movieSeat')
                                     pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                     title: movie.title,
                                     release_date: movie.release_date,
-                                    overview: movie.overview
                                 });
                             }
                         }
@@ -237,15 +236,13 @@ angular.module('movieSeat')
         $scope.removeMovie = function(movie){
             $scope.model.rowIndex = null;
             $scope.transition = 'fadeOut';
+            $rootScope.$broadcast('onRemoveMovieEvent', movie);
             $timeout(function () {
                 $scope.overview = false;
                 $scope.movieDetail = {};
                 $scope.movieDetail.backdrop_path = '/yqyZLEfSiSeqmn5oRahbOUTUHd9.jpg'
                 $scope.transition = '';
-                // DONT FORGET
-                $rootScope.$broadcast('onRemoveMovieEvent', movie);
             }, 300);
-
         };
 
         getmovieFactoryFN = function(){
@@ -300,6 +297,23 @@ angular.module('movieSeat')
         $scope.$on('onAddMovieEvent', function (event, movie) {
 
             $scope.moviesX.push(movie);
+            $scope.movieGroups = [];
+
+            var orderBy = $filter('orderBy');
+            var orderedWatchlist = orderBy($scope.moviesX, "release_date", true);
+
+            var i, j, temparray, chunk = 8;
+            for (i=0,j=orderedWatchlist.length; i<j; i+=chunk) {
+                temparray = orderedWatchlist.slice(i,i+chunk);
+                $scope.movieGroups.push(temparray);
+            }
+        });
+
+        $scope.$on('onRemoveMovieEventUpdate', function (event, movie) {
+            console.log('onRemoveMovieEventUpdate')
+            var index = $scope.moviesX.indexOf(movie);
+            $scope.moviesX.splice(index, 1);
+
             $scope.movieGroups = [];
 
             var orderBy = $filter('orderBy');

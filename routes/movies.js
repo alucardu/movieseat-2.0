@@ -11,11 +11,11 @@ router.post('/', function(req,res){
 
     pool.getConnection(function(err, connection) {
         var data = {
-            title : movie.title,
-            release_date : movie.release_date,
-            poster_path: movie.poster_path,
-            overview : movie.overview,
-            backdrop_path : movie.backdrop_path
+            title           : movie.title,
+            release_date    : movie.release_date,
+            poster_path     : movie.poster_path,
+            overview        : movie.overview,
+            backdrop_path   : movie.backdrop_path
         };
         connection.query('INSERT INTO movies SET ?', data, function (err) {
             if (err) throw err;
@@ -27,13 +27,14 @@ router.post('/', function(req,res){
 
 router.delete('/', function(req,res){
 
+    console.log([req.body.title]);
+
     pool.getConnection(function(err, connection){
 
-        connection.query('DELETE FROM movies WHERE id= ?', [req.body.id], function(err, result) {
+        connection.query('DELETE FROM movies WHERE title= ?', [req.body.title], function(err, result) {
             if (err) {
                 throw err;
             } else {
-                console.log('removed')
             }
         });
         connection.release();

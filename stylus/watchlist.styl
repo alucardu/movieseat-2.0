@@ -129,6 +129,7 @@
           transition: all 200ms ease-in-out
           position: relative
           z-index 2
+          filter blur(0px)
           &:focus
             outline 0
             border 0
@@ -151,9 +152,10 @@
             font-size 2em
           &:hover
             transform: scale(1.1)
+            filter blur(0px)
             .delete
               opacity 1
-              margin 0px
+              margin 0
               padding 20% 0
               bottom 0
           .release_date

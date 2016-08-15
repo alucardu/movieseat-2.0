@@ -2,13 +2,13 @@ angular.module('movieSeat')
     .controller('moviesearchCtrl', ['$rootScope', 'getmovieFactory', 'movieFactory', 'moviesearchFactory', '$scope', '$q', '$timeout',  'Notification', function ($rootScope, getmovieFactory, movieFactory, moviesearchFactory, $scope, $q, $timeout, Notification ) {
 
         $scope.addMovie = function (movie)  {
+
             movieFactory.selectMovie(movie).then(function(response){
                 movieFactory.addMovie(response);
                 Notification.success(movie.title + ' has been added to your watchlist');
                 $scope.movies = [];
                 $scope.overlay = false;
                 $scope.searchquery = '';
-
                 $rootScope.$broadcast('onAddMovieEvent', movie);
             });
         };
@@ -16,7 +16,7 @@ angular.module('movieSeat')
         $scope.$on('onRemoveMovieEvent', function (event, movie) {
             movieFactory.removeMovie(movie).then(function(){
                 Notification.success(movie.title + ' has been removed from your watchlist')
-                // $rootScope.$broadcast('onAddMovieEvent');
+                $rootScope.$broadcast('onRemoveMovieEventUpdate', movie);
             })
         });
 
@@ -60,7 +60,6 @@ angular.module('movieSeat')
                                     pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                     title: movie.title,
                                     release_date: movie.release_date,
-                                    overview: movie.overview
                                 });
                             }
                         }

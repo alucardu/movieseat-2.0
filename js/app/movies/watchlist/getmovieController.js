@@ -6,15 +6,13 @@ angular.module('movieSeat')
         $scope.removeMovie = function(movie){
             $scope.model.rowIndex = null;
             $scope.transition = 'fadeOut';
+            $rootScope.$broadcast('onRemoveMovieEvent', movie);
             $timeout(function () {
                 $scope.overview = false;
                 $scope.movieDetail = {};
                 $scope.movieDetail.backdrop_path = '/yqyZLEfSiSeqmn5oRahbOUTUHd9.jpg'
                 $scope.transition = '';
-                // DONT FORGET
-                $rootScope.$broadcast('onRemoveMovieEvent', movie);
             }, 300);
-
         };
 
         getmovieFactoryFN = function(){
@@ -69,6 +67,23 @@ angular.module('movieSeat')
         $scope.$on('onAddMovieEvent', function (event, movie) {
 
             $scope.moviesX.push(movie);
+            $scope.movieGroups = [];
+
+            var orderBy = $filter('orderBy');
+            var orderedWatchlist = orderBy($scope.moviesX, "release_date", true);
+
+            var i, j, temparray, chunk = 8;
+            for (i=0,j=orderedWatchlist.length; i<j; i+=chunk) {
+                temparray = orderedWatchlist.slice(i,i+chunk);
+                $scope.movieGroups.push(temparray);
+            }
+        });
+
+        $scope.$on('onRemoveMovieEventUpdate', function (event, movie) {
+            console.log('onRemoveMovieEventUpdate')
+            var index = $scope.moviesX.indexOf(movie);
+            $scope.moviesX.splice(index, 1);
+
             $scope.movieGroups = [];
 
             var orderBy = $filter('orderBy');
