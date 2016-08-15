@@ -1,17 +1,33 @@
 angular.module('movieSeat')
-    .controller('moviesearchCtrl', ['movieaddFactory', 'moviesearchFactory', '$scope', '$q', '$timeout' , function (movieaddFactory, moviesearchFactory, $scope, $q, $timeout) {
+    .controller('moviesearchCtrl', ['$rootScope', 'getmovieFactory', 'movieFactory', 'moviesearchFactory', '$scope', '$q', '$timeout',  'Notification', function ($rootScope, getmovieFactory, movieFactory, moviesearchFactory, $scope, $q, $timeout, Notification ) {
 
         $scope.addMovie = function (movie)  {
+            movieFactory.selectMovie(movie).then(function(response){
+                movieFactory.addMovie(response);
+                Notification.success(movie.title + ' has been added to your watchlist');
+                $scope.movies = [];
+                $scope.overlay = false;
+                $scope.searchquery = '';
 
-            movieaddFactory.addMovie(movie).then(function(response){
-                $scope.movies = response;
-                console.log($scope.movies)
+                $rootScope.$broadcast('onAddMovieEvent', movie);
             });
+        };
 
+        $scope.$on('onRemoveMovieEvent', function (event, movie) {
+            movieFactory.removeMovie(movie).then(function(){
+                Notification.success(movie.title + ' has been removed from your watchlist')
+                // $rootScope.$broadcast('onAddMovieEvent');
+            })
+        });
+
+
+        $scope.closeSearch = function(){
+            $scope.movies = [];
+            $scope.overlay = false;
+            $scope.searchquery = ''
         };
 
         $scope.overlay = false;
-
         $scope.showResult = false;
         $scope.createList = function (searchquery) {
 
@@ -39,6 +55,7 @@ angular.module('movieSeat')
                                 }
 
                                 $scope.moviesPreload.push({
+                                    id: movie.id,
                                     poster_path : movie.poster_path,
                                     pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                     title: movie.title,
@@ -82,6 +99,7 @@ angular.module('movieSeat')
                 $scope.model = {};
                 $scope.toggleSsomething =  false;
                 $scope.overlay = false;
+                $scope.searchquery = ''
             }
 
         };

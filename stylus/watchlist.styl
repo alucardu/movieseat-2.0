@@ -24,6 +24,7 @@
       color white
       font-style italic
   .animate
+    width 100%
     transition 500ms ease-in all
     transition-delay 1500ms
     &.ng-hide
@@ -34,6 +35,79 @@
     justify-content: center
     min-width: 100%
     margin-bottom 3.5%
+    .movie_details
+      background-color #171717
+      font-family: Lato, sans-serif
+      position: relative
+      height 30vh
+      color white
+      transition 300ms ease-in height
+      overflow hidden
+      &.ng-hide
+        height 0
+      &.ng-add
+        height 200px
+      #aligner
+        display flex
+        flex-direction: column
+        width 100%
+      #movie_details_container
+        position absolute
+        width 100%
+        height 100%
+        i
+          z-index 1
+          position absolute
+          right 0
+          font-size 2em
+          padding 1%
+          cursor pointer
+        .overview
+          width 65%
+          position absolute
+          height 100%
+          right 0
+          background-size cover
+          background-position center center
+          box-sizing border-box
+          .movie-background-gradiant
+            position absolute
+            width: 75%
+            left 0
+            height 100%
+            background-image linear-gradient(to right,#171717,rgba(0, 0, 0, 0))
+            display flex
+            justify-content center
+            flex-direction column
+          span
+            position absolute
+            top 5%
+            right 2%
+            width 80%
+            padding 5%
+            background-color rgba(128, 128, 128, 0.45)
+        .info
+          padding 2%
+          h1
+            font-size 2em
+      .fadeIn
+        animation 300ms fadeIn
+      .fadeOut
+        animation 300ms fadeOut
+      @keyframes fadeIn
+        0% {
+          opacity 0
+        }
+        100% {
+          opacity 1
+        }
+      @keyframes fadeOut
+        0% {
+          opacity 1
+        }
+        100% {
+          opacity 0
+        }
     ul
       min-width: 100%
       display: flex
@@ -42,13 +116,49 @@
         box-sizing: border-box
         margin: 0 0.25%
         width: 12%
+        //transition 33300ms ease-in all
+        //&:ng-enter
+        //  opacity 0
+        //&:ng-enter-active
+        //  opacity 1
         .container_movie
+          cursor pointer
           height: 100%
           background-size: cover
           background-position: center
+          transition: all 200ms ease-in-out
+          position: relative
+          z-index 2
+          &:focus
+            outline 0
+            border 0
+          .delete_container
+            overflow hidden
+            position absolute
+            bottom 0
+            height 50%
+            width 100%
+          .delete
+            background-image linear-gradient(rgba(255, 255, 255, 0),rgba(0,0,0,0.6))
+            opacity 0
+            position: absolute
+            bottom: 0
+            width 100%
+            text-align center
+            margin-bottom -35px
+            transition all 0.5s
+            color white
+            font-size 2em
+          &:hover
+            transform: scale(1.1)
+            .delete
+              opacity 1
+              margin 0px
+              padding 20% 0
+              bottom 0
           .release_date
             position absolute
-            margin-top -2.2%
+            margin-top -15%
             font-family Lato, sans-serif
             color white
             font-style italic
@@ -58,4 +168,3 @@
           img
             width: 100%
             opacity: 0
-

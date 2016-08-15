@@ -19,6 +19,7 @@
     "angular": "angularjs#^1.5.8",
     "angular-material": "^1.0.9",
     "ngFitText": "^4.2.1",
-    "SpinKit": "spinkit#^1.2.5"
+    "SpinKit": "spinkit#^1.2.5",
+    "angular-ui-notification": "^0.2.0"
   }
 }
