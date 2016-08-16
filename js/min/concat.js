@@ -130,6 +130,7 @@ angular.module('movieSeat')
 
                                 $scope.moviesPreload.push({
                                     id: movie.id,
+                                    movie_id: movie.id,
                                     poster_path : movie.poster_path,
                                     pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                     title: movie.title,
