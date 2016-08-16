@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var pool = require('../connection');
+var passport = require('passport');
+
+router.post('/signIn',
+    passport.authenticate('local', {
+        successRedirect: '/auth/profile',
+        failureRedirect: '/'
+    })
+);
 
 router.post('/signUp', function(req,res){
     var user = req.body;
@@ -15,7 +23,6 @@ router.post('/signUp', function(req,res){
 
         connection.query('INSERT INTO users SET ?', data, function (err) {
             if (err) throw err;
-            console.log('success')
         });
         connection.release();
     });
@@ -25,8 +32,14 @@ router.post('/signUp', function(req,res){
     });
 });
 
-router.get('/profile', function(req, res){
+router.get('/profile', function(req, res, next){
+
+    if(!req.user){
+        console.log('nope')
+        res.redirect('/')
+    }
     res.json(req.user);
+
 });
 
 module.exports = router;

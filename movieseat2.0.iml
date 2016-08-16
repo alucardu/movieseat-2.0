@@ -9,6 +9,5 @@
     <orderEntry type="library" name="node-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="node-mysql-wrapper-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="mysql-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="movieseat2.0 node_modules" level="project" />
   </component>
 </module>

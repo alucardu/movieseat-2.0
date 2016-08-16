@@ -1,61 +1,73 @@
 block content
 
-	div Sign In
-	div Sign Up
-		form(name='signUpForm', action='/auth/signUp', method='post')
-			input(name="userName" id="userName")
-			input(name="password" id="password")
-			input(type="submit" value="Sign up")
+    div Sign In
+        form(name='signInForm', action='/auth/signIn', method='post')
+            label User name:
+                input(name="userName" id="userName")
+            br
+            label Password:
+                input(name="password" id="password")
+            br
+            input(type="submit" value="Sign in")
+    div Sign Up
+        form(name='signUpForm', action='/auth/signUp', method='post')
+            label User name:
+                input(name="userName" id="userName")
+            br
+            label Password:
+                input(name="password" id="password")
+            br
+            input(type="submit" value="Sign up")
 
-	#moviesearch_container(ng-controller='moviesearchCtrl')
-		div.overlay(ng-show="overlay", ng-click="closeSearch()")
-		div#search_container
-			input#search_input(ng-model='searchquery', ng-change='createList(searchquery)', ng-model-options='{debounce: 1000}', placeholder='Search for a movie')
-			md-progress-linear(md-mode='indeterminate', ng-show='showProgress')
-			span(ng-show='noResult') No results found.
-			ul(ng-cloak='showResult')
-				li.search_results(ng-repeat="movie in movies | orderBy: '-release_date' track by $index")
-					.movie_info
-						span.title {{movie.title}}
-						span.release_date {{movie.release_date}}
-						img.poster(ng-model="movie.poster_path", ng-src='{{movie.pre_load_poster_path}}')
-						.movie_options
-							.slide
-								span.movie_option
-									span
-										i.fa.fa-question-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
-									span
-										i.fa.fa-plus-circle(aria-hidden='true', ng-click="addMovie(movie)")
-					.container_additional_information(ng-show='toggleSsomething')
-						.additional_info(ng-show='$index === model.displayedIndex')
-							i.fa.fa-times-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
-							span {{movie.overview}}
+    #moviesearch_container(ng-controller='moviesearchCtrl')
+        div.overlay(ng-show="overlay", ng-click="closeSearch()")
+        div#search_container
+            input#search_input(ng-model='searchquery', ng-change='createList(searchquery)', ng-model-options='{debounce: 1000}', placeholder='Search for a movie')
+            md-progress-linear(md-mode='indeterminate', ng-show='showProgress')
+            span(ng-show='noResult') No results found.
+            ul(ng-cloak='showResult')
+                li.search_results(ng-repeat="movie in movies | orderBy: '-release_date' track by $index")
+                    .movie_info
+                        span.title {{movie.title}}
+                        span.release_date {{movie.release_date}}
+                        img.poster(ng-model="movie.poster_path", ng-src='{{movie.pre_load_poster_path}}')
+                        .movie_options
+                            .slide
+                                span.movie_option
+                                    span
+                                        i.fa.fa-question-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
+                                    span
+                                        i.fa.fa-plus-circle(aria-hidden='true', ng-click="addMovie(movie)")
+                    .container_additional_information(ng-show='toggleSsomething')
+                        .additional_info(ng-show='$index === model.displayedIndex')
+                            i.fa.fa-times-circle(aria-hidden='true', ng-click='toggleDisplay($index)')
+                            span {{movie.overview}}
 
-	div#watchlist(ng-controller="getmovieController")
-		div#loadWatchlist(ng-show="!loadingWatchlist")
-			div#aligner
-				.sk-wave
-					.sk-rect.sk-rect1
-					.sk-rect.sk-rect2
-					.sk-rect.sk-rect3
-					.sk-rect.sk-rect4
-					.sk-rect.sk-rect5
-				span Loading Watchlist
-		div.animate(ng-show="loadingWatchlist")
-			div.row(ng-repeat="group in movieGroups track by $index")
-				ul
-					li(ng-repeat="movie in group")
-						div.container_movie(ng-style="{'background-image':'url(http://image.tmdb.org/t/p/w500{{movie.poster_path}}'}" ng-click="toggleRow($parent.$index, movie)")
-							div.release_date(data-fittext='1' ng-bind="movie.release_date | date:'dd/MM/yyyy'")
-							img(ng-src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}")
-							.delete_container
-								.delete
-									i.fa.fa-trash-o(aria-hidden='true', ng-click="removeMovie(movie); close(); $event.stopPropagation();")
-				div.movie_details(ng-show="$index === model.rowIndex")
-					div#movie_details_container(ng-class="transition")
-						i.fa.fa-times-circle(aria-hidden='true', ng-click="close()")
-						div.overview(ng-style="{'background-image':'url(https://image.tmdb.org/t/p/w1280' + movieDetail.backdrop_path + ')'}", ng-show="overview")
-							div.movie-background-gradiant
-							span {{ movieDetail.overview }}
-						div.info
-							h1 {{ movieDetail.title }}
+    div#watchlist(ng-controller="getmovieController")
+        div#loadWatchlist(ng-show="!loadingWatchlist")
+            div#aligner
+                .sk-wave
+                    .sk-rect.sk-rect1
+                    .sk-rect.sk-rect2
+                    .sk-rect.sk-rect3
+                    .sk-rect.sk-rect4
+                    .sk-rect.sk-rect5
+                span Loading Watchlist
+        div.animate(ng-show="loadingWatchlist")
+            div.row(ng-repeat="group in movieGroups track by $index")
+                ul
+                    li(ng-repeat="movie in group")
+                        div.container_movie(ng-style="{'background-image':'url(http://image.tmdb.org/t/p/w500{{movie.poster_path}}'}" ng-click="toggleRow($parent.$index, movie)")
+                            div.release_date(data-fittext='1' ng-bind="movie.release_date | date:'dd/MM/yyyy'")
+                            img(ng-src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}")
+                            .delete_container
+                                .delete
+                                    i.fa.fa-trash-o(aria-hidden='true', ng-click="removeMovie(movie); close(); $event.stopPropagation();")
+                div.movie_details(ng-show="$index === model.rowIndex")
+                    div#movie_details_container(ng-class="transition")
+                        i.fa.fa-times-circle(aria-hidden='true', ng-click="close()")
+                        div.overview(ng-style="{'background-image':'url(https://image.tmdb.org/t/p/w1280' + movieDetail.backdrop_path + ')'}", ng-show="overview")
+                            div.movie-background-gradiant
+                            span {{ movieDetail.overview }}
+                        div.info
+                            h1 {{ movieDetail.title }}
