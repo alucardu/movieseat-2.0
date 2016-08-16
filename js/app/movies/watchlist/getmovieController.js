@@ -80,7 +80,6 @@ angular.module('movieSeat')
         });
 
         $scope.$on('onRemoveMovieEventUpdate', function (event, movie) {
-            console.log('onRemoveMovieEventUpdate!!!! Deploy');
             var index = $scope.moviesX.indexOf(movie);
             $scope.moviesX.splice(index, 1);
 
