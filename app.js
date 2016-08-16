@@ -1,5 +1,4 @@
 var express = require('express');
-// var router = express.Router();
 
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,11 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var passport = require('passport');
+var session = require('express-session');
+
 var index = require('./routes/index');
 var movies = require('./routes/movies');
+var authRouter = require('./routes/authRoutes');
 
 var app = express();
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,8 +29,13 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
+app.use(session({secret: 'movies'}));
+require('./config/passport')(app);
+
 app.use('/', index);
-app.use('/movies/', movies);
+app.use('/movies', movies);
+app.use('/Auth', authRouter);
+
 
 // connect to the heroku database
 var mysql = require('mysql');
