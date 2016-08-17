@@ -1,13 +1,16 @@
 angular.module('movieSeat')
-    .controller('loginCtrl', ['$scope', '$http', function($scope, $http){
+    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory', function($scope, $http, Notification, identityFactory, authFactory){
+
+        $scope.identity = identityFactory;
         $scope.signIn = function(username, password){
 
-            $http.post('/login', {username:username, password:password}).then(function(response){
-                if(response.data.success){
-                    console.log('logged in');
-                } else{
-                    console.log('not logged in');
+            authFactory.authenticateUSer(username, password).then(function(success){
+                if(success){
+                    Notification.success('You have logged in');
+                } else {
+                    Notification.error('Incorrect username/password combination');
+
                 }
-            })
+            });
         }
     }]);

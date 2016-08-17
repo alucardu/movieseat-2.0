@@ -1,6 +1,6 @@
 block content
 	div(ng-controller="loginCtrl")
-		form
+		form(ng-hide="identity.isAuthenticated()")
 			input(placeholder="Email", ng-model="username")
 			input(type="password", placeholder="Password", ng-model="password")
 			button(ng-click="signIn(username, password)") Sign in
