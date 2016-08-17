@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var pool = require('../connection');
+var pool = require('../config/connection');
 
 router.post('/', function(req,res){
     var movie = req.body;
