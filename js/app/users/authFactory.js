@@ -10,7 +10,7 @@ angular.module('movieSeat')
                     } else{
                         dfd.resolve(false);
                     }
-                })
+                });
                 return dfd.promise;
             }
         }

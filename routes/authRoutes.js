@@ -8,7 +8,6 @@ router.post('/', function(req, res, next){
     var auth = passport.authenticate('local', function(err, user){
         if(err){return next(err);}
         if(!user){
-            console.log('no user')
             res.send({succes:false})
         } else {
             console.log('user')

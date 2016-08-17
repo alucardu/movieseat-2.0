@@ -1,7 +1,8 @@
-var express = require('express'),
-    passport = require('passport'),
+var passport = require('passport'),
     pool = require('./config/connection'),
     LocalStrategy = require('passport-local').Strategy;
+
+var express = require('express');
 
 var favicon = require('serve-favicon');
 
@@ -17,16 +18,13 @@ require('./config/express.js')(app, config);
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
+// require('./config/passport.js');
 passport.use(new LocalStrategy(
     function(username, password, done) {
 
         pool.getConnection(function(err, connection) {
-            var data = {
-                username : username,
-                password : password
-            };
 
-            connection.query('SELECT * FROM users WHERE username LIKE ?', [data.username], function (err, user) {
+            connection.query('SELECT * FROM users WHERE username LIKE ?', [username], function (err, user) {
                 if (err) throw err;
 
                 for (var i = user.length - 1; i >= 0; i--) {
@@ -78,7 +76,6 @@ passport.deserializeUser(function(id, done){
 });
 
 require('./config/routes.js')(app);
-
 
 app.use('/', index);
 app.use('/movies', movies);
