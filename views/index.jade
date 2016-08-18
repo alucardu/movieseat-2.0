@@ -1,15 +1,5 @@
 block content
 
-    div(ng-controller="userRegisterCtrl")
-        form
-            label User name:
-                input(ng-model="username", id="username")
-            br
-            label Password:
-                input(type="password", ng-model="password", id="password")
-            br
-            button(ng-click="register(username, password)") Sign up!
-
     #moviesearch_container(ng-controller='moviesearchCtrl')
         div.overlay(ng-show="overlay", ng-click="closeSearch()")
         div#search_container

@@ -437,6 +437,7 @@ angular.module('movieSeat')
                     Notification.success('You have logged in');
                 } else {
                     Notification.error('Incorrect username/password combination');
+
                 }
             });
         }
