@@ -1,6 +1,7 @@
 var passport = require('passport'),
     pool = require('./config/connection'),
-    LocalStrategy = require('passport-local').Strategy;
+    LocalStrategy = require('passport-local').Strategy,
+    bcrypt = require('bcrypt-nodejs');
 
 var express = require('express');
 
@@ -31,6 +32,8 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 passport.use(new LocalStrategy(
     function(username, password, done) {
 
+        console.log('app.js');
+
         pool.getConnection(function(err, connection) {
 
             connection.query('SELECT * FROM users WHERE username LIKE ?', [username], function (err, user) {
@@ -41,8 +44,13 @@ passport.use(new LocalStrategy(
                 }
 
                 if(current){
-                    return done(null, user);
+                    if(bcrypt.compareSync(password, current.password)){
+                        return done(null, user);
+                    } else {
+                        return done(null, false);
+                    }
                 } else {
+                    console.log('no user');
                     return done(null, false);
                 }
             });
