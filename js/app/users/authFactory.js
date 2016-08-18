@@ -3,7 +3,7 @@ angular.module('movieSeat')
         return{
             authenticateUSer: function(username, password){
                 var dfd = $q.defer();
-                $http.post('/login', {username:username, password:password}).then(function(response){
+                $http.post('auth/login', {username:username, password:password}).then(function(response){
                     if(response.data.success){
                         identityFactory.currentUser = response.data.user;
                         dfd.resolve(true);

@@ -401,15 +401,53 @@ angular.module('movieSeat')
 
     }]);
 angular.module('movieSeat')
-    .controller('loginCtrl', ['$scope', '$http', function($scope, $http){
+    .factory('authFactory',['$http', 'identityFactory', '$q', function($http, identityFactory, $q){
+        return{
+            authenticateUSer: function(username, password){
+                var dfd = $q.defer();
+                $http.post('auth/login', {username:username, password:password}).then(function(response){
+                    if(response.data.success){
+                        identityFactory.currentUser = response.data.user;
+                        dfd.resolve(true);
+                    } else{
+                        dfd.resolve(false);
+                    }
+                });
+                return dfd.promise;
+            }
+        }
+    }]);
+angular.module('movieSeat')
+    .factory('identityFactory', function(){
+        return{
+            currentUser: undefined,
+            isAuthenticated: function(){
+                return !!this.currentUser;
+            }
+        }
+    });
+angular.module('movieSeat')
+    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory', function($scope, $http, Notification, identityFactory, authFactory){
+
+        $scope.identity = identityFactory;
         $scope.signIn = function(username, password){
 
-            $http.post('/login', {username:username, password:password}).then(function(response){
-                if(response.data.success){
-                    console.log('logged in');
-                } else{
-                    console.log('not logged in');
+            authFactory.authenticateUSer(username, password).then(function(success){
+                if(success){
+                    Notification.success('You have logged in');
+                } else {
+                    Notification.error('Incorrect username/password combination');
+
                 }
-            })
+            });
         }
+    }]);
+angular.module('movieSeat')
+    .controller('userRegisterCtrl', ['$scope', '$http', function($scope, $http) {
+
+        $scope.register = function(username, password){
+
+            $http.post('auth/register', {username:username, password:password});
+        }
+
     }]);

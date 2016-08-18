@@ -18,6 +18,15 @@ require('./config/express.js')(app, config);
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
+// // Require the bcrypt package
+// var bcrypt = require('bcryptjs');
+//
+// // Create a password salt
+// var salt = bcrypt.genSaltSync(10);
+//
+// // Salt and hash password
+// var passwordToSave = bcrypt.hashSync(passwordFromUser, salt)
+
 // require('./config/passport.js');
 passport.use(new LocalStrategy(
     function(username, password, done) {
@@ -79,6 +88,6 @@ require('./config/routes.js')(app);
 
 app.use('/', index);
 app.use('/movies', movies);
-app.use('/login', authRouter);
+app.use('/auth', authRouter);
 
 module.exports = app;
