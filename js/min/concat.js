@@ -76,7 +76,6 @@ angular.module('movieSeat')
     .controller('moviesearchCtrl', ['$rootScope', 'getmovieFactory', 'movieFactory', 'moviesearchFactory', '$scope', '$q', '$timeout',  'Notification', function ($rootScope, getmovieFactory, movieFactory, moviesearchFactory, $scope, $q, $timeout, Notification ) {
 
         $scope.addMovie = function (movie)  {
-
             movieFactory.selectMovie(movie).then(function(response){
                 movieFactory.addMovie(response);
                 Notification.success(movie.title + ' has been added to your watchlist');
@@ -414,20 +413,32 @@ angular.module('movieSeat')
                     }
                 });
                 return dfd.promise;
+            },
+            logoutUser: function(){
+                var dfd = $q.defer();
+                $http.post('auth/logout', {logout:true}).then(function(){
+                    identityFactory.currentUser = undefined;
+                    dfd.resolve();
+                });
+                return dfd.promise;
             }
         }
     }]);
 angular.module('movieSeat')
-    .factory('identityFactory', function(){
+    .factory('identityFactory', ['$window', function($window){
+        var currentUser;
+        if(!!$window.bootstrappedUserObject){
+            currentUser = $window.bootstrappedUserObject;
+        }
         return{
-            currentUser: undefined,
+            currentUser: currentUser,
             isAuthenticated: function(){
                 return !!this.currentUser;
             }
         }
-    });
+    }]);
 angular.module('movieSeat')
-    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory', function($scope, $http, Notification, identityFactory, authFactory){
+    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory','$location', function($scope, $http, Notification, identityFactory, authFactory, $location){
 
         $scope.identity = identityFactory;
         $scope.signIn = function(username, password){
@@ -440,6 +451,17 @@ angular.module('movieSeat')
 
                 }
             });
+        };
+
+        $scope.signOut = function(){
+            authFactory.logoutUser().then(function(){
+                $scope.username = '';
+                $scope.password = '';
+                Notification.success('You have successfully logged out!');
+                $location.path('/');
+                $scope.showSignIn = false;
+                $scope.overlaySignIn = false;
+            })
         }
     }]);
 angular.module('movieSeat')
