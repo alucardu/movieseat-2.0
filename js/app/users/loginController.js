@@ -1,5 +1,5 @@
 angular.module('movieSeat')
-    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory', function($scope, $http, Notification, identityFactory, authFactory){
+    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory','$location', function($scope, $http, Notification, identityFactory, authFactory, $location){
 
         $scope.identity = identityFactory;
         $scope.signIn = function(username, password){
@@ -12,5 +12,16 @@ angular.module('movieSeat')
 
                 }
             });
+        };
+
+        $scope.signOut = function(){
+            authFactory.logoutUser().then(function(){
+                $scope.username = '';
+                $scope.password = '';
+                Notification.success('You have successfully logged out!');
+                $location.path('/');
+                $scope.showSignIn = false;
+                $scope.overlaySignIn = false;
+            })
         }
     }]);

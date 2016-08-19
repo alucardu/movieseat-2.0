@@ -17,18 +17,32 @@
   align-items center
   width 100%
   margin-bottom 5%
+  #signout
+    padding 1%
+    border-radius 5%
+    background-color: #ffa500
+    margin-left: auto
+    color: #fff
+    margin-right 1%
+    cursor: pointer
+    font-size: 1.5em
   #logo
     padding 1%
     font-family 'Oleo Script', cursive
     font-size 5em
     color white
   #login_container
+    box-sizing border-box
+    display: flex
     width 100%
     transition 500ms all ease-out
     &.ng-hide
       opacity 0
     #user
-      float right
+      width 100%
+      text-align: right
+      box-sizing border-box
+      //float right
       //position: relative
       //z-index 999
       margin-left: auto;
@@ -37,11 +51,12 @@
       cursor: pointer
       font-size 1.5em
       span
-        margin-left 5%
+        margin-right 5%
+        box-sizing border-box
       #login
         padding 1%
       #signup
-        padding 5%
+        padding 1%
         border-radius 5%
         background-color: #ffa500
     form

@@ -12,6 +12,14 @@ angular.module('movieSeat')
                     }
                 });
                 return dfd.promise;
+            },
+            logoutUser: function(){
+                var dfd = $q.defer();
+                $http.post('auth/logout', {logout:true}).then(function(){
+                    identityFactory.currentUser = undefined;
+                    dfd.resolve();
+                });
+                return dfd.promise;
             }
         }
     }]);
