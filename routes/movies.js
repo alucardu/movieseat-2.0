@@ -4,47 +4,80 @@ var pool = require('../config/connection');
 
 router.post('/', function(req,res){
     var movie = req.body;
-    console.log(req.user);
 
     if(movie.overview == ''){
         movie.overview = 'No summary available'
     }
 
-    pool.getConnection(function(err, connection) {
-        var data = {
-            title           : movie.title,
-            release_date    : movie.release_date,
-            poster_path     : movie.poster_path,
-            overview        : movie.overview,
-            backdrop_path   : movie.backdrop_path,
-            movie_id        : movie.id
-        };
+    getAllMovies = function(){
+        pool.getConnection(function(err, connection) {
+            connection.query('SELECT * FROM `movies`', function (error, result) {
+                for (var i = result.length - 1; i >= 0; i--) {
 
-        var join = {
-            userid: req.user.id,
-            movie_id: movie.id
-        };
+                    if(movie.id === result[i].movie_id){
+                        var movieX = movie;
+                    }
+                }
 
-        connection.query('INSERT INTO movies SET ?', data, function (err) {
-            if (err) throw err;
+                if(movieX){
+                    pool.getConnection(function(err, connection) {
+
+                        var join = {
+                            userid: req.user.id,
+                            movie_id: movieX.id
+                        };
+
+                        connection.query('INSERT INTO user_movieid SET ?', join, function (err) {
+                            if (err) throw err;
+                        });
+
+                        connection.release();
+                    });
+                    res.status(204).end();
+                } else {
+                    pool.getConnection(function(err, connection) {
+                        var data = {
+                            title           : movie.title,
+                            release_date    : movie.release_date,
+                            poster_path     : movie.poster_path,
+                            overview        : movie.overview,
+                            backdrop_path   : movie.backdrop_path,
+                            movie_id        : movie.id
+                        };
+
+                        var join = {
+                            userid: req.user.id,
+                            movie_id: movie.id
+                        };
+
+                        connection.query('INSERT INTO movies SET ?', data, function (err) {
+                            if (err) throw err;
+                        });
+
+                        connection.query('INSERT INTO user_movieid SET ?', join, function (err) {
+                            if (err) throw err;
+                        });
+
+                        connection.release();
+                    });
+                    res.status(204).end();
+                }
+
+
+            });
+            connection.release();
         });
+    };
 
-        connection.query('INSERT INTO user_movieid SET ?', join, function (err) {
-            if (err) throw err;
-        });
+    getAllMovies();
 
-        connection.release();
-    });
-    res.status(204).end();
 });
 
 router.delete('/', function(req,res){
 
-    console.log([req.body.movie_id]);
-
     pool.getConnection(function(err, connection){
 
-        connection.query('DELETE FROM movies WHERE movie_id= ?', [req.body.movie_id], function(err, result) {
+        connection.query('DELETE FROM user_movieid WHERE movie_id= ? AND userid = ?', [req.body.movie_id], [req.user.id], function(err, result) {
             if (err) {
                 throw err;
             } else {
@@ -71,8 +104,6 @@ router.get('/', function(req, res){
 
        });
     } else {
-
-        console.log('no user');
 
         pool.getConnection(function(err, connection) {
             connection.query('SELECT * FROM `movies`', function (error, result) {

@@ -48,10 +48,7 @@ passport.use('local-register', new LocalStrategy(
                 return data(null, false);
             } else {
 
-                // console.log('authRoutes');
-                // console.log(password);
                 password = bcrypt.hashSync(password);
-                // console.log(password);
 
                 var data = {
                     username : username,

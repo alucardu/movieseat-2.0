@@ -72,26 +72,27 @@ passport.serializeUser(function(user, done){
 
 passport.deserializeUser(function(id, done){
 
-    pool.getConnection(function(err, connection) {
+    if(id){
 
-        // console.log(connection)
+        pool.getConnection(function(err, connection) {
 
-        connection.query('SELECT * FROM users WHERE id LIKE ?', [id], function (err, user) {
-            if (err) throw err;
+            connection.query('SELECT * FROM users WHERE id LIKE ?', [id], function (err, user) {
+                if (err) throw err;
 
-            for (var i = user.length - 1; i >= 0; i--) {
-                var current = user[i];
-            }
+                for (var i = user.length - 1; i >= 0; i--) {
+                    var current = user[i];
+                }
 
-            if(current){
-                return done(null, current);
-            } else {
-                return done(null, false);
-            }
+                if(current){
+                    return done(null, current);
+                } else {
+                    return done(null, false);
+                }
+            });
+
+            connection.release();
         });
-
-        connection.release();
-    });
+    }
 });
 
 require('./config/routes.js')(app);
