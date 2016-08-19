@@ -74,6 +74,8 @@ passport.deserializeUser(function(id, done){
 
     pool.getConnection(function(err, connection) {
 
+        // console.log(connection)
+
         connection.query('SELECT * FROM users WHERE id LIKE ?', [id], function (err, user) {
             if (err) throw err;
 
