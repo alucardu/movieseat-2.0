@@ -10,6 +10,7 @@ router.post('/', function(req,res){
     }
 
     getAllMovies = function(){
+
         pool.getConnection(function(err, connection) {
             connection.query('SELECT * FROM `movies`', function (error, result) {
                 for (var i = result.length - 1; i >= 0; i--) {
@@ -77,10 +78,9 @@ router.delete('/', function(req,res){
 
     pool.getConnection(function(err, connection){
 
-        connection.query('DELETE FROM user_movieid WHERE movie_id= ? AND userid = ?', [req.body.movie_id], [req.user.id], function(err, result) {
+            connection.query('DELETE FROM user_movieid WHERE movie_id= ? AND userid= ?' ,[req.body.movie_id, req.user.id] , function(err, result) {
             if (err) {
                 throw err;
-            } else {
             }
         });
         connection.release();
@@ -105,12 +105,8 @@ router.get('/', function(req, res){
        });
     } else {
 
-        pool.getConnection(function(err, connection) {
-            connection.query('SELECT * FROM `movies`', function (error, result) {
-                res.send(result);
-            });
-            connection.release();
-        });
+        res.send([]);
+
     }
 });
 
