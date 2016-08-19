@@ -9,7 +9,5 @@
     <orderEntry type="library" name="node-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="node-mysql-wrapper-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="mysql-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="passport-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="stylus-DefinitelyTyped" level="application" />
   </component>
 </module>
