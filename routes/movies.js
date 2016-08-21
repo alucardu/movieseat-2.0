@@ -44,8 +44,11 @@ router.delete('/', function(req,res){
 });
 
 router.get('/', function(req, res){
+
+
+
    pool.getConnection(function(err, connection) {
-       connection.query('SELECT * FROM `movies`', function (error, result) {
+       connection.query('SELECT * FROM movies', function (error, result) {
            res.send(result);
        });
        connection.release();

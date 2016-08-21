@@ -60,6 +60,7 @@ passport.use(new LocalStrategy(
     }
 ));
 
+
 passport.serializeUser(function(user, done){
 
     for (var i = user.length - 1; i >= 0; i--) {
@@ -91,6 +92,8 @@ passport.deserializeUser(function(id, done){
         connection.release();
     });
 });
+
+require('./config/strategies/facebook.strategy');
 
 require('./config/routes.js')(app);
 
