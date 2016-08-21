@@ -73,24 +73,27 @@ passport.serializeUser(function(user, done){
 
 passport.deserializeUser(function(id, done){
 
-    pool.getConnection(function(err, connection) {
+    if(id){
 
-        connection.query('SELECT * FROM users WHERE id LIKE ?', [id], function (err, user) {
-            if (err) throw err;
+        pool.getConnection(function(err, connection) {
 
-            for (var i = user.length - 1; i >= 0; i--) {
-                var current = user[i];
-            }
+            connection.query('SELECT * FROM users WHERE id LIKE ?', [id], function (err, user) {
+                if (err) throw err;
 
-            if(current){
-                return done(null, current);
-            } else {
-                return done(null, false);
-            }
+                for (var i = user.length - 1; i >= 0; i--) {
+                    var current = user[i];
+                }
+
+                if(current){
+                    return done(null, current);
+                } else {
+                    return done(null, false);
+                }
+            });
+
+            connection.release();
         });
-
-        connection.release();
-    });
+    }
 });
 
 require('./config/strategies/facebook.strategy');

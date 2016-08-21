@@ -76,7 +76,6 @@ angular.module('movieSeat')
     .controller('moviesearchCtrl', ['$rootScope', 'getmovieFactory', 'movieFactory', 'moviesearchFactory', '$scope', '$q', '$timeout',  'Notification', function ($rootScope, getmovieFactory, movieFactory, moviesearchFactory, $scope, $q, $timeout, Notification ) {
 
         $scope.addMovie = function (movie)  {
-
             movieFactory.selectMovie(movie).then(function(response){
                 movieFactory.addMovie(response);
                 Notification.success(movie.title + ' has been added to your watchlist');
