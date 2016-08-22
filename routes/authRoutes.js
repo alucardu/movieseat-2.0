@@ -31,7 +31,7 @@ passport.use(new FacebookStrategy({
                 connection.query('select * FROM users WHERE email= ?', [profile.emails[0].value], function (err, user) {
 
                     if (err)
-                        return data(err);
+                        return user(err);
 
                     if (user.length) {
                         return done(null, user);

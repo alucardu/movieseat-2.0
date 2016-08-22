@@ -1,22 +1,34 @@
 block content
-    div#menu(ng-controller="loginCtrl")
-        a(href='/')
-            h1#logo Movieseat
-        span#signout(ng-show="identity.isAuthenticated()", ng-click="signOut()") Sign out
-        div#login_container(ng-hide="identity.isAuthenticated()")
-            div#user
-                span#login(ng-click="showSignIn = !showSignIn; overlaySignIn = !overlaySignIn") Sign in
-                span#signup(ng-click="showSignUp = !showSignUp; overlaySignUp = !overlaySignUp") Sign up
-            div.overlay(ng-show="overlaySignIn", ng-click="showSignIn = !showSignIn;  overlaySignIn = !overlaySignIn;")
-            div.overlay(ng-show="overlaySignUp", ng-click="showSignUp = !showSignUp;  overlaySignUp = !overlaySignUp;")
-            form(ng-show="showSignIn")
-                h1 Sign In
-                a(href='/auth/facebook') Facebook
-                input(placeholder="Email", ng-model="username")
-                input(placeholder="Password", type="Password", ng-model="password")
-                button(ng-click="signIn(username, password)") Sign in
-            form(autocomplete='off', ng-show="showSignUp", ng-controller="userRegisterCtrl")
-                h1 Sign Up
-                input(placeholder="User name", ng-model="username")
-                input(placeholder="Password", type="password", ng-model="password")
-                button(ng-click="register(username, password)") Sign up!
+	div#menu(ng-controller="loginCtrl")
+		a(href='/')
+			h1#logo Movieseat
+		span#signout(ng-show="identity.isAuthenticated()", ng-click="signOut()") Sign out
+		div#login_container(ng-hide="identity.isAuthenticated()")
+			div#user
+				span#loginBtn(ng-click="showSignIn = !showSignIn; overlaySignIn = !overlaySignIn") Login
+				span#signup(ng-click="showSignUp = !showSignUp; overlaySignUp = !overlaySignUp") Sign up
+			div.overlay(ng-show="overlaySignIn", ng-click="showSignIn = !showSignIn;  overlaySignIn = !overlaySignIn;")
+			div.overlay(ng-show="overlaySignUp", ng-click="showSignUp = !showSignUp;  overlaySignUp = !overlaySignUp;")
+			form(ng-show="showSignIn")
+				div.facebook
+					span
+						i.fa.fa-facebook
+						a(href='/auth/facebook') Login with facebook
+				div
+					h1 OR
+					input(placeholder="Email", ng-model="username")
+					input(placeholder="Password", type="password", ng-model="password")
+				button(ng-click="signIn(username, password)") Login
+			form(autocomplete='off', ng-show="showSignUp", ng-controller="userRegisterCtrl")
+				div.facebook
+					span
+						i.fa.fa-facebook
+						a(href='/auth/facebook') Sign up with facebook
+				div
+					h1 OR
+					input(placeholder="User name", ng-model="username")
+					input(placeholder="Password", type="password", ng-model="password")
+				button(ng-click="register(username, password)") Sign up!
+
+
+
