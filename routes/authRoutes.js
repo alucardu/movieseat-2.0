@@ -3,7 +3,8 @@ var router = express.Router();
 var pool = require('../config/connection');
 var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    FacebookStrategy = require('passport-facebook').Strategy;
+    FacebookStrategy = require('passport-facebook').Strategy,
+    bcrypt = require('bcrypt-nodejs');
 
 router.get('/facebook', passport.authenticate('facebook', {
   scope: ['email']
@@ -145,5 +146,72 @@ passport.use('local-register', new LocalStrategy(
         });
     }
 ));
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+
+        console.log('app.js');
+
+        pool.getConnection(function(err, connection) {
+
+            connection.query('SELECT * FROM users WHERE username LIKE ?', [username], function (err, user) {
+                if (err) throw err;
+
+                for (var i = user.length - 1; i >= 0; i--) {
+                    var current = user[i];
+                }
+
+                if(current){
+                    if(bcrypt.compareSync(password, current.password)){
+                        return done(null, user);
+                    } else {
+                        return done(null, false);
+                    }
+                } else {
+                    console.log('no user');
+                    return done(null, false);
+                }
+            });
+
+            connection.release();
+        });
+    }
+));
+
+
+passport.serializeUser(function(user, done){
+
+    for (var i = user.length - 1; i >= 0; i--) {
+        var current = user[i];
+    }
+    if(current){
+        done(null, current.id);
+    }
+});
+
+passport.deserializeUser(function(id, done){
+
+    if(id){
+
+        pool.getConnection(function(err, connection) {
+
+            connection.query('SELECT * FROM users WHERE id LIKE ?', [id], function (err, user) {
+                if (err) throw err;
+
+                for (var i = user.length - 1; i >= 0; i--) {
+                    var current = user[i];
+                }
+
+                if(current){
+                    return done(null, current);
+                } else {
+                    return done(null, false);
+                }
+            });
+
+            connection.release();
+        });
+    }
+});
 
 module.exports = router;

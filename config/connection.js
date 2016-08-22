@@ -1,3 +1,5 @@
+// Load module
+var mysql = require('mysql');
 // Initialize pool
 var pool = mysql.createPool({
     connectionLimit : 10,
@@ -7,3 +9,5 @@ var pool = mysql.createPool({
     database : 'heroku_0b954ee0f0e9102',
     debug    :  false
 });
+
+module.exports = pool;
