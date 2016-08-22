@@ -4,7 +4,7 @@ app.config([
     'NotificationProvider', function(NotificationProvider) {
         NotificationProvider.setOptions({
             delay: 4500,
-            startTop: 20,
+            startTop: 95,
             startRight: 10,
             verticalSpacing: 200,
             horizontalSpacing: 20,
