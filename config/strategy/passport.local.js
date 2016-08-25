@@ -47,6 +47,7 @@ passport.use(new LocalStrategy(
 
         pool.getConnection(function(err, connection) {
 
+
             connection.query('SELECT * FROM users WHERE username LIKE ?', [username], function (err, user) {
                 if (err) throw err;
 

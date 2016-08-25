@@ -18,6 +18,10 @@ angular.module('movieSeat')
         getmovieFactoryFN = function(){
             getmovieFactory.getMovies().then(function(response){
 
+                if(response.length < 1){
+                    return
+                }
+
                 $scope.moviesX = response;
                 $scope.moviesPreload = response;
                 $scope.loadingWatchlist = false;
@@ -63,6 +67,10 @@ angular.module('movieSeat')
         };
 
         getmovieFactoryFN();
+
+        $scope.$on('getMoviesEvent', function () {
+            getmovieFactoryFN();
+        });
 
         $scope.$on('onAddMovieEvent', function (event, movie) {
 

@@ -4,7 +4,7 @@
     width 100%
     height 100%
     background-color rgba(39, 31, 31, 0.67)
-    z-index 1
+    z-index 444
     transition 500ms ease-in all
     &.ng-hide
       opacity 0
@@ -13,8 +13,9 @@
   #search_container
     width 40%
     margin 0 auto
-    margin-bottom 5%
+    margin-bottom 4%
     position relative
+    z-index 999
     #search_input
       position relative
       z-index 2
@@ -49,6 +50,7 @@
         &.ng-leave-active
           opacity: 0
         .movie_info
+          color: #fff
           background-color: rgb(65, 65, 65)
           z-index: 2
           border-bottom: 1px solid grey

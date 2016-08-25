@@ -8,7 +8,7 @@ angular.module('movieSeat')
                 $scope.movies = [];
                 $scope.overlay = false;
                 $scope.searchquery = '';
-                $rootScope.$broadcast('onAddMovieEvent', movie);
+                $rootScope.$broadcast('onAddMovieEvent', response);
             });
         };
 
@@ -60,6 +60,7 @@ angular.module('movieSeat')
                                     pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                     title: movie.title,
                                     release_date: movie.release_date,
+                                    overview: movie.overview
                                 });
                             }
                         }
@@ -124,7 +125,7 @@ angular.module('movieSeat')
                 for (var i = 0; i < y.length; i++) {
                     h[i].style.height = Number(y[i].clientHeight) + 'px';
                 }
-            }, 25);
+            }, 0);
         }
 
     }]);

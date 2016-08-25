@@ -44,6 +44,7 @@ block content
 															.delete_container
 																	.delete
 																			i.fa.fa-trash-o(aria-hidden='true', ng-click="removeMovie(movie); close(); $event.stopPropagation();")
+
 									div.movie_details(ng-show="$index === model.rowIndex")
 											div#movie_details_container(ng-class="transition")
 													i.fa.fa-times-circle(aria-hidden='true', ng-click="close()")

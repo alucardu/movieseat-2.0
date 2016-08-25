@@ -1,5 +1,5 @@
 angular.module('movieSeat')
-    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory','$location', function($scope, $http, Notification, identityFactory, authFactory, $location){
+    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory','$location', '$rootScope', function($scope, $http, Notification, identityFactory, authFactory, $location, $rootScope){
 
         $scope.identity = identityFactory;
         $scope.signIn = function(username, password){
@@ -7,6 +7,7 @@ angular.module('movieSeat')
             authFactory.authenticateUSer(username, password).then(function(success){
                 if(success){
                     Notification.success('You have logged in');
+                    // $rootScope.$broadcast('getMoviesEvent');
                 } else {
                     Notification.error('Incorrect username/password combination');
 
