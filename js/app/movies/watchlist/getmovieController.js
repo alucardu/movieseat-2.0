@@ -15,6 +15,22 @@ angular.module('movieSeat')
             }, 300);
         };
 
+        getMovieLoginFN = function(){
+            getmovieFactory.getMovies().then(function(response){
+                $scope.movies = response;
+
+                var orderBy = $filter('orderBy');
+                var orderedWatchlist = orderBy($scope.movies, "release_date", true);
+
+                var i, j, temparray, chunk = 8;
+                $scope.movieGroups = [];
+                for (i=0,j=orderedWatchlist.length; i<j; i+=chunk) {
+                    temparray = orderedWatchlist.slice(i,i+chunk);
+                    $scope.movieGroups.push(temparray);
+                }
+            })
+        };
+
         getmovieFactoryFN = function(){
             getmovieFactory.getMovies().then(function(response){
 

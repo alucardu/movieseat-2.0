@@ -43,12 +43,13 @@ passport.use('local-register', new LocalStrategy(
 passport.use(new LocalStrategy(
     function(username, password, done) {
 
-        console.log('app.js');
-
         pool.getConnection(function(err, connection) {
 
+            console.log('LocalStrat');
+            console.log('err: ' + err);
 
             connection.query('SELECT * FROM users WHERE username LIKE ?', [username], function (err, user) {
+                connection.release();
                 if (err) throw err;
 
                 for (var i = user.length - 1; i >= 0; i--) {
@@ -67,7 +68,6 @@ passport.use(new LocalStrategy(
                 }
             });
 
-            connection.release();
         });
     }
 ));

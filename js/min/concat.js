@@ -4,9 +4,9 @@ app.config([
     'NotificationProvider', function(NotificationProvider) {
         NotificationProvider.setOptions({
             delay: 4500,
-            startTop: 95,
+            startTop: 20,
             startRight: 10,
-            verticalSpacing: 200,
+            verticalSpacing: 20,
             horizontalSpacing: 20,
             positionX: 'right',
             positionY: 'top'
@@ -82,7 +82,7 @@ angular.module('movieSeat')
                 $scope.movies = [];
                 $scope.overlay = false;
                 $scope.searchquery = '';
-                $rootScope.$broadcast('onAddMovieEvent', movie);
+                $rootScope.$broadcast('onAddMovieEvent', response);
             });
         };
 
@@ -134,6 +134,7 @@ angular.module('movieSeat')
                                     pre_load_poster_path: 'http://image.tmdb.org/t/p/w92' + movie.poster_path,
                                     title: movie.title,
                                     release_date: movie.release_date,
+                                    overview: movie.overview
                                 });
                             }
                         }
@@ -198,7 +199,7 @@ angular.module('movieSeat')
                 for (var i = 0; i < y.length; i++) {
                     h[i].style.height = Number(y[i].clientHeight) + 'px';
                 }
-            }, 25);
+            }, 0);
         }
 
     }]);
@@ -245,8 +246,28 @@ angular.module('movieSeat')
             }, 300);
         };
 
+        getMovieLoginFN = function(){
+            getmovieFactory.getMovies().then(function(response){
+                $scope.movies = response;
+
+                var orderBy = $filter('orderBy');
+                var orderedWatchlist = orderBy($scope.movies, "release_date", true);
+
+                var i, j, temparray, chunk = 8;
+                $scope.movieGroups = [];
+                for (i=0,j=orderedWatchlist.length; i<j; i+=chunk) {
+                    temparray = orderedWatchlist.slice(i,i+chunk);
+                    $scope.movieGroups.push(temparray);
+                }
+            })
+        };
+
         getmovieFactoryFN = function(){
             getmovieFactory.getMovies().then(function(response){
+
+                if(response.length < 1){
+                    return
+                }
 
                 $scope.moviesX = response;
                 $scope.moviesPreload = response;
@@ -293,6 +314,10 @@ angular.module('movieSeat')
         };
 
         getmovieFactoryFN();
+
+        $scope.$on('getMoviesEvent', function () {
+            getmovieFactoryFN();
+        });
 
         $scope.$on('onAddMovieEvent', function (event, movie) {
 
@@ -438,7 +463,7 @@ angular.module('movieSeat')
         }
     }]);
 angular.module('movieSeat')
-    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory','$location', function($scope, $http, Notification, identityFactory, authFactory, $location){
+    .controller('loginCtrl', ['$scope', '$http', 'Notification', 'identityFactory', 'authFactory','$location', '$rootScope', function($scope, $http, Notification, identityFactory, authFactory, $location, $rootScope){
 
         $scope.identity = identityFactory;
         $scope.signIn = function(username, password){
@@ -446,6 +471,7 @@ angular.module('movieSeat')
             authFactory.authenticateUSer(username, password).then(function(success){
                 if(success){
                     Notification.success('You have logged in');
+                    $rootScope.$broadcast('getMoviesEvent');
                 } else {
                     Notification.error('Incorrect username/password combination');
 

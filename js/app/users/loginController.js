@@ -7,7 +7,7 @@ angular.module('movieSeat')
             authFactory.authenticateUSer(username, password).then(function(success){
                 if(success){
                     Notification.success('You have logged in');
-                    // $rootScope.$broadcast('getMoviesEvent');
+                    $rootScope.$broadcast('getMoviesEvent');
                 } else {
                     Notification.error('Incorrect username/password combination');
 

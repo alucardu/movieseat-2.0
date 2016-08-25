@@ -16,6 +16,7 @@ exports.authenticate = function(req, res, next){
 
 passport.serializeUser(function(user, done){
 
+
     for (var i = user.length - 1; i >= 0; i--) {
         var current = user[i];
     }

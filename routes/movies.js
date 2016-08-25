@@ -12,6 +12,16 @@ router.post('/', function(req,res){
     getAllMovies = function(){
 
         pool.getConnection(function(err, connection) {
+
+            connection.query('SELECT * FROM user_movieid WHERE movie_id= ? AND userid= ?' ,[req.body.movie_id, req.user.id] , function(err, result) {
+                for (var i = result.length - 1; i >= 0; i--) {
+
+                    if (movie.id === result[i].movie_id) {
+                        var movieX = movie;
+                    }
+                }
+            })
+
             connection.query('SELECT * FROM `movies`', function (error, result) {
                 for (var i = result.length - 1; i >= 0; i--) {
 
